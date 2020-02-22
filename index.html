@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	
+		<meta name="author" content="eliseekn">
+		<meta name="description" content="Shopping cart template with jQuery/Bootstrap(frontend) and PHP/MySQL(backend)">
+		<meta name="keywords" conten="shopping cart, ecommcerce, template">
+	
+		<link rel="stylesheet" href="public/vendor/bootstrap-4.4.1-dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="public/vendor/fontawesome-free-5.11.2-web/css/all.min.css">
+		<link rel="stylesheet" href="public/assets/css/style.css">
+
+		<title>jStore - jQuery Shopping Cart Template</title>
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">jStore</a>
+
+                <ul class="navbar-nav ml-auto">
+                    <a href="" class="nav-link" id="show-cart" data-toggle="modal" data-target="#cart-modal">
+                        <li class="fas fa-shopping-cart"></li>
+                        <span>Cart (<span class="cart-count">0</span>)</span>
+                    </a>
+                </ul>
+            </div>
+        </nav>
+        
+        <section class="container my-5">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h4 class="mt-5 text-dark">Filter results</h4>
+                    <hr class="bg-dark mb-4">
+                    
+					<div class="form-group mt-4">
+						<label for="categories-list">Product category</label>
+						<select class="form-control" id="categories-list"></select>
+					</div>
+
+					<div class="form-group">
+						<label for="search">Product name</label>
+                        <input type="search" class="form-control" id="search">
+                    </div>
+
+					<div class="form-group mt-4">
+						<label for="price">Product price:</label> $<span id="product-filter-price">1000</span>
+                        <input type="range" class="form-control-range" id="price-filter" min="1" max="1000" value="1000">
+                    </div>
+                </div>
+
+                <div class="col-lg-9">
+                    <h4 class="mt-5 text-dark">All products</h4>
+                    <hr class="bg-dark mb-4">
+
+                    <div class="card-columns" id="products-list"></div>
+
+                    <nav class="my-4">
+                        <ul class="pagination"></ul>
+                    </nav>
+                </div>
+            </div>
+        </section>
+
+        <div class="modal fade" id="cart-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-dark text-white px-3">
+                        <h5 class="modal-title">Your cart (<span class="cart-count">0</span>)</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <li class="fas fa-times"></li>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <ul class="list-group list-group-flush" id="cart-products"></ul>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-dark disabled">Total: $<span id="cart-price">0</span></button>
+                        <button type="button" class="btn btn-danger" id="clear-cart">Clear</button>
+                        <button type="button" class="btn btn-success">Order now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="public/vendor/jquery-3.4.1.min.js"></script>
+        <script type="text/javascript" src="public/vendor/popper.min.js"></script>
+        <script type="text/javascript" src="public/vendor/bootstrap-4.4.1-dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="client/app.js"></script>
+	</body>
+</html>

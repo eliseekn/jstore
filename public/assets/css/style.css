@@ -1,0 +1,26 @@
+nav li {
+	font-size: 1.3rem;
+	padding-right: .3em;
+}
+
+h4, 
+label,
+.card-title {
+	font-weight: bold;
+}
+
+.card-text {
+	font-size: 1.3rem;
+}
+
+hr {
+	width: 100px;
+	border-width: 5px;
+	margin: 0;
+	border-radius: 5px;
+}
+
+.current-page {
+	background-color: #343a40;
+	color: white !important;	
+}
