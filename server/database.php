@@ -6,9 +6,9 @@ database.php
 
 //define database connection constants
 define('DB_HOST', 'localhost');
-define('DB_USERNAME', 'root');
-define('DB_PASSWORD', 'eliseekn');
-define('DB_NAME', 'jstore');
+define('DB_USERNAME', 'root'); //change this to your database infos
+define('DB_PASSWORD', 'eliseekn'); //change this to your database infos
+define('DB_NAME', 'jstore'); //if you change this, change alse in db.sql
 
 //define database class used to connect and execute queries on it
 class Database {

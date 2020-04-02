@@ -17,12 +17,14 @@ $data = array();
 $categories = new Categories();
 $products = new Products();
 
-//parse $_POST requests
-if ( isset( $_POST['categories'] ) ) {
+$request = json_decode(file_get_contents('php://input'), true);
+
+//parse requests
+if ( isset( $request['categories'] ) ) {
 	$data = $categories->get_all();
-} elseif ( isset( $_POST['products'] ) ) {
-	if ( isset( $_POST['page'] ) ) {
-		$data = $products->get_all( (int)$_POST['page'] );
+} elseif ( isset( $request['products'] ) ) {
+	if ( isset( $request['page'] ) ) {
+		$data = $products->get_all( (int)$request['page'] );
 	}
 }
 

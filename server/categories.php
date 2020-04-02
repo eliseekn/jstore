@@ -18,7 +18,7 @@ class Categories {
 		$categories = array();
 
 		if ( $this->db->connected ) {
-			$result = $this->db->fetch_assoc( "SELECT name FROM categories", true );
+			$result = $this->db->fetch_assoc( "SELECT * FROM categories", true );
 
 			foreach ( $result as $category ) {
 				$categories[] = array (

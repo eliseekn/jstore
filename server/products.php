@@ -28,7 +28,6 @@ class Products {
 			$page = $total_pages;
 		}
 		
-		
 		$first_product = ( $page - 1 ) * $last_product;
 
 		return array( $first_product, $last_product, $total_pages );
@@ -56,8 +55,6 @@ class Products {
 		
 		return array( 
 			'products' => $products,
-			'page' => $page,
-			'first_product' => $pagination[0],
 			'total_pages' => $pagination[2]
 		);
 	}

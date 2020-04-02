@@ -7,44 +7,39 @@ app.js
 let cart = [];
 
 //post data to server
-function postData( data ) {
-	let request = $.ajax({
-		url: '././server/router.php',
-		type: 'post',
-		data: data
+async function postData( data ) {
+	const request = await fetch('././server/router.php', {
+		method: 'post',
+		body: JSON.stringify(data)
 	});
 
-	return request;
+	const response = await request.json();
+	return response;
 }
 
 //retrieves and display categories list from server
 function getCategories() {
 	postData( { categories: 'categories' } )
-		.done( function( response ) {
+		.then( ( data ) => {
 			let html = `<option value="All" selected>All</option>`;
 
-			response.map( item => {
+			data.forEach( item => {
 				html += `<option value="${item.name}">${item.name}</option>`;
 			});
 
 			$( "#categories-list" ).html( html );
-		})
-		.fail( function( response ) {
-			console.log( "Request failed" );
 		});
 }
 
 //retrieves and display products list from server
 function getProducts( page ) {
 	postData( { products: 'products', page: page } )
-		.done( function( response ) {
-			let products = response.products;
-			let page = response.page;
-			let first_product = response.first_product;
-			let total_pages = response.total_pages;
+		.then( ( data ) => {
+			const products = data.products;
+			const totalPages = data.total_pages;
 			let html = '';
 
-			products.map( item => {
+			products.forEach( item => {
 				html += `
 					<div class="card mb-4 shadow" data-product-category="${item.category}">
   						<img src="${item.image}" class="card-img-top">
@@ -66,21 +61,21 @@ function getProducts( page ) {
 			//generate pagination
 			html = '';
 
-			if ( page != first_product + 1 ) {
+			if ( page > 1 ) {
                 html += `<a class="page-link text-dark" href="#" data-page-id="${page - 1}">Previous</a>`;
             }
 
-            if ( total_pages > 1 ) {
-                for (let i = 1; i <= total_pages; i++) {
-                    if (i === page) {
-                        html += `<a class="page-link text-dark current-page disabled" href="#" data-page-id="${i}">${i}</a>`;
+            if ( totalPages > 1 ) {
+                for (let i = 1; i <= totalPages; i++) {
+                    if (i == page) {
+                        html += `<a class="page-link text-dark current-page" href="#" data-page-id="${i}">${i}</a>`;
                     } else {
                         html += `<a class="page-link text-dark" href="#" data-page-id="${i}">${i}</a>`;
                     }
                 }
             }
 
-            if ( page != total_pages ) {
+            if ( page < totalPages ) {
                 html += `<a class="page-link text-dark" href="#" data-page-id="${page + 1}">Next</a>`;
             }
 
@@ -113,9 +108,6 @@ function getProducts( page ) {
 					} 
 				});
 			});
-		})
-		.fail( function( response ) {
-			console.log( "Request failed" );
 		});
 }
 
@@ -203,9 +195,9 @@ $( function() {
 		//update product price
 		$( ".product-quantity" ).each( function( i, elmt ) {
 			$( elmt ).change( function() {
-				let productId = this.dataset.productId;
-				let productPrice = this.dataset.productPrice;
-				let newProductPrice = productPrice * $( this ).val();
+				const productId = this.dataset.productId;
+				const productPrice = this.dataset.productPrice;
+				const newProductPrice = productPrice * $( this ).val();
 
 				$( ".product-price" ).each( function( i, elmt ) {
 					if ( elmt.dataset.productId === productId ) {
@@ -232,10 +224,10 @@ $( function() {
 
 	//filter products by category
 	$( "#categories-list" ).change( function( e ) {
-		let categoryName = this.value;
+		const categoryName = this.value;
 		
 		$( ".card" ).each( function( i, elmt ) {
-			let productCategory = this.dataset.productCategory;
+			const productCategory = this.dataset.productCategory;
 				
 			if ( productCategory === categoryName ) {
 				$( elmt ).css( "display", "flex" );
@@ -251,12 +243,12 @@ $( function() {
 	
 	//filter products by name
 	$( "#search" ).keyup( function() {
-		let productSearchName = $( this ).val().toUpperCase();
+		const productSearchName = $( this ).val().toUpperCase();
 		
 		$( ".card-text" ).each( function( i, elmt ) {
-			let productCard = $( elmt ).parent().parent();
-			let productCategory = productCard.data( "productCategory" );
-			let categoryName = $( "#categories-list" ).val();
+			const productCard = $( elmt ).parent().parent();
+			const productCategory = productCard.data( "productCategory" );
+			const categoryName = $( "#categories-list" ).val();
 
 			//apply category filter
 			if ( categoryName === productCategory || categoryName === "All" ) {
@@ -273,15 +265,17 @@ $( function() {
 
 	//filter products by price
 	$( "#price-filter" ).on( 'input', function() {
-		let filterPrice = $( this ).val();
+		const filterPrice = $( this ).val();
+		
 		$( "#product-filter-price" ).text( filterPrice );
 
 		$( ".card-title" ).each( function( i, elmt ) {
-			let productCard = $( elmt ).parent().parent();
-			let productCategory = productCard.data( "productCategory" );
-			let categoryName = $( "#categories-list" ).val();
-			let productSearchName = $( "#search" ).val().toUpperCase();
-			let productCardName = $( elmt ).next().text();
+			const productCard = $( elmt ).parent().parent();
+			const productCategory = productCard.data( "productCategory" );
+			const categoryName = $( "#categories-list" ).val();
+			const productSearchName = $( "#search" ).val().toUpperCase();
+			const productCardName = $( elmt ).next().text();
+
 			let productPrice = $( elmt ).children().text();
 			productPrice = Number( productPrice );
 			
